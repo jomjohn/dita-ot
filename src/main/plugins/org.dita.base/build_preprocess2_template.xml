@@ -150,6 +150,10 @@ See the accompanying LICENSE file for applicable license.
   
   <target name="map-reader"
     description="Read input map files to temporary store">
+    <condition property="show.copy-to.duplicates.in.gen-maps" value="false" else="true">
+      <istrue value="${check.copy-to.duplicates.in.topicref}"/>
+    </condition>
+
     <pipeline message="Generate maps" taskname="map-reader"
               inputmap="${args.input}">
       <module class="org.dita.dost.module.reader.MapReaderModule">
@@ -165,6 +169,8 @@ See the accompanying LICENSE file for applicable license.
         <param name="setsystemid" value="${args.xml.systemid.set}"/>
         <param name="generate-debug-attributes" value="${generate-debug-attributes}" if:set="generate-debug-attributes"/>
         <param name="processing-mode" value="${processing-mode}" if:set="processing-mode"/>
+        <param name="show.key.duplicates" value="${show.key.duplicates.in.gen-list}"/>
+        <param name="show.copy-to.duplicates" value="${show.copy-to.duplicates.in.gen-maps}"/>
         <dita:extension id="dita.preprocess.map-reader.param" behavior="org.dita.dost.platform.InsertAction"/>
       </module>
     </pipeline>

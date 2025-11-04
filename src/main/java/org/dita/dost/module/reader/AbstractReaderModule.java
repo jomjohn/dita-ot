@@ -122,6 +122,8 @@ public abstract class AbstractReaderModule extends AbstractPipelineModuleImpl {
   private boolean gramcache = true;
   /** Profiling is enabled. */
   private boolean profilingEnabled;
+  /** Specifies whether copy-to duplicates should be shown in the log */
+  private boolean showCopyToDuplicates;
   String transtype;
   private File ditavalFile;
   FilterUtils filterUtils;
@@ -182,7 +184,8 @@ public abstract class AbstractReaderModule extends AbstractPipelineModuleImpl {
     listFilter.setPrimaryDitamap(rootFile);
     listFilter.setJob(job);
     listFilter.setFormatFilter(formatFilter);
-
+    listFilter.setShowCopyToDuplicates(showCopyToDuplicates);
+    
     if (profilingEnabled) {
       filterUtils = parseFilterFile();
     }
@@ -317,6 +320,11 @@ public abstract class AbstractReaderModule extends AbstractPipelineModuleImpl {
         .orElse(true);
     if (profilingEnabled) {
       ditavalFile = Optional.of(new File(job.tempDir, FILE_NAME_MERGED_DITAVAL)).filter(File::exists).orElse(null);
+    }
+
+    showCopyToDuplicates = true;
+    if (input.getAttribute(ANT_INVOKER_PARAM_SHOW_COPY_TO_DUPLICATES) != null) {
+      showCopyToDuplicates = Boolean.parseBoolean(input.getAttribute(ANT_INVOKER_PARAM_SHOW_COPY_TO_DUPLICATES));
     }
   }
 

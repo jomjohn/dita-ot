@@ -123,6 +123,10 @@ public final class GenMapAndTopicListModule extends SourceReaderModule {
 
   /** Profiling is enabled. */
   private boolean profilingEnabled;
+
+  /** Specifies whether copy-to duplicates should be shown in the log */
+  private boolean showCopyToDuplicates;
+
   /** Absolute path for filter file. */
   private File ditavalFile;
   /** Number of directory levels base directory is adjusted. */
@@ -253,6 +257,8 @@ public final class GenMapAndTopicListModule extends SourceReaderModule {
     listFilter.setLogger(logger);
     listFilter.setPrimaryDitamap(rootFile);
     listFilter.setJob(job);
+    listFilter.setShowCopyToDuplicates(showCopyToDuplicates);
+
 
     if (profilingEnabled) {
       filterUtils = parseFilterFile();
@@ -264,6 +270,9 @@ public final class GenMapAndTopicListModule extends SourceReaderModule {
     keydefFilter.setJob(job);
 
     nullHandler = new DefaultHandler();
+    logger.warn("RunningINITFILTERS");
+
+    
   }
 
   private void parseInputParameters(final AbstractPipelineInput input) {
@@ -285,6 +294,7 @@ public final class GenMapAndTopicListModule extends SourceReaderModule {
     job.setOutterControl(input.getAttribute(ANT_INVOKER_EXT_PARAM_OUTTERCONTROL));
     job.setOnlyTopicInMap(Boolean.parseBoolean(input.getAttribute(ANT_INVOKER_EXT_PARAM_ONLYTOPICINMAP)));
     job.setCrawl(input.getAttribute(ANT_INVOKER_EXT_PARAM_CRAWL));
+
 
     // Set the OutputDir
     final File path = toFile(input.getAttribute(ANT_INVOKER_EXT_PARAM_OUTPUTDIR));
@@ -337,6 +347,11 @@ public final class GenMapAndTopicListModule extends SourceReaderModule {
     profilingEnabled = true;
     if (input.getAttribute(ANT_INVOKER_PARAM_PROFILING_ENABLED) != null) {
       profilingEnabled = Boolean.parseBoolean(input.getAttribute(ANT_INVOKER_PARAM_PROFILING_ENABLED));
+    }
+
+    showCopyToDuplicates = true;
+    if (input.getAttribute(ANT_INVOKER_PARAM_SHOW_COPY_TO_DUPLICATES) != null) {
+      showCopyToDuplicates = Boolean.parseBoolean(input.getAttribute(ANT_INVOKER_PARAM_SHOW_COPY_TO_DUPLICATES));
     }
 
     // create the keydef file for scheme files

@@ -124,6 +124,10 @@ See the accompanying LICENSE file for applicable license.
     dita:depends="{depend.preprocess.gen-list.pre}"
     dita:extension="depends org.dita.dost.platform.InsertDependsAction"
     description="Generate file list">
+    <condition property="show.copy-to.duplicates.in.gen-list" value="false" else="true">
+      <istrue value="${check.copy-to.duplicates.in.topicref}"/>
+    </condition>
+
     <pipeline message="Generate list." taskname="gen-list"
       inputmap="${args.input}">
       <module class="org.dita.dost.module.GenMapAndTopicListModule">
@@ -142,6 +146,7 @@ See the accompanying LICENSE file for applicable license.
         <param name="profiling.enable" value="${filter-on-parse}" unless:set="filter-on-parse"/>
         <param name="generate-debug-attributes" value="${generate-debug-attributes}" if:set="generate-debug-attributes"/>
         <param name="processing-mode" value="${processing-mode}" if:set="processing-mode"/>
+        <param name="show.copy-to.duplicates" value="${show.copy-to.duplicates.in.gen-list}"/>
       </module>
     </pipeline>
   </target>

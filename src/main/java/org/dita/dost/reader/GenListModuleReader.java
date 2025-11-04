@@ -66,6 +66,9 @@ public final class GenListModuleReader extends AbstractXMLFilter {
    * Flag for whether parsing file contains coderef
    */
   private boolean hasCodeRef = false;
+
+  /** Specifies whether copy-to duplicates should be shown in the log */
+  private boolean showCopyToDuplicates;
   /**
    * Set of all targets referred in current parsing file except conref and copy-to
    */
@@ -152,6 +155,15 @@ public final class GenListModuleReader extends AbstractXMLFilter {
   public void setJob(final Job job) {
     this.job = job;
   }
+  /**
+   * Set whether copy-to duplicates should be shown in the log.
+   *
+   * @param showCopyToDuplicates true to show duplicates, false to suppress
+   */
+  public void setShowCopyToDuplicates(final boolean showCopyToDuplicates) {
+    this.showCopyToDuplicates = showCopyToDuplicates;
+  }
+
 
   /**
    * Support only givens type.
@@ -647,12 +659,14 @@ public final class GenListModuleReader extends AbstractXMLFilter {
             final URI value = stripFragment(currentDir.resolve(copyTo));
             if (copytoMap.get(filename) != null) {
               if (!value.equals(copytoMap.get(filename))) {
-                logger.warn(
-                  MessageUtils
-                    .getMessage("DOTX065W", copyTo.toString(), filename.toString())
-                    .setLocation(atts)
-                    .toString()
-                );
+                if (showCopyToDuplicates) {
+                  logger.warn(
+                    MessageUtils
+                      .getMessage("DOTX065W", copyTo.toString(), filename.toString())
+                      .setLocation(atts)
+                      .toString()
+                  );
+                }
               }
               ignoredCopytoSourceSet.add(value);
             } else {

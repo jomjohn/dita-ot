@@ -1457,6 +1457,8 @@ public final class Constants {
   public static final String ANT_INVOKER_PARAM_MAPLINKS = "maplinks";
   /** Argument name for enabling profiling. */
   public static final String ANT_INVOKER_PARAM_PROFILING_ENABLED = "profiling.enable";
+  /** Argument name for reporting copy-to duplicates later in xslt processing (ideal for preprocess2). */
+  public static final String ANT_INVOKER_PARAM_SHOW_COPY_TO_DUPLICATES = "show.copy-to.duplicates";
 
   /**Constants for extensive params used in ant invoker(targetext).*/
   public static final String ANT_INVOKER_EXT_PARAM_TARGETEXT = "targetext";
